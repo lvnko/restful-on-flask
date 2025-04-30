@@ -1,6 +1,9 @@
-<h1>Hello World!</h1>
-<ul>
-{% for user in users %}
-    <li><p>Name: {{ user.username }}, Age: {{ user.age }}</p></li>
-{% endfor %}
-</ul>
+{% extends "footer.html" %}
+{% block content %}
+    <h1>Hello World!</h1>
+    <ul>
+    {% for user in users %}
+        <li><p>Name: {{ user.username }}, Age: {{ user.age }}</p></li>
+    {% endfor %}
+    </ul>
+{% endblock %}
