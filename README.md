@@ -145,7 +145,7 @@ if __name__ == '__main__':
 
 以上涵蓋了在 Flask 應用程式中使用 Jinja 模板的基本概念。
 
-## Python 語法
+## 一些有用的 Python 語法
 ### 靜態檔案
 
 使用 `url_for()` 連結到位於 `static` 目錄中的靜態檔案（CSS、JS、圖片）。
@@ -188,6 +188,24 @@ def profile(username):
 <!-- 模板中的連結 -->
 <a href="{{ url_for('profile', username='JohnDoe') }}">查看 JohnDoe 的個人資料</a>
 ```
+
+## RESTful API 使用說明
+
+本專案提供了一組 RESTful API 端點，用於透過 HTTP 請求對 `data/users.csv` 中的使用者資料執行 CRUD（建立、讀取、更新、刪除）操作。
+
+| HTTP 方法 | 路徑 (Path)        | 描述                                   | 請求主體 (Request Body) (JSON) | 回應 (Response) (JSON)                     |
+| :-------- | :----------------- | :------------------------------------- | :----------------------------- | :----------------------------------------- |
+| `GET`     | `/users`           | 取得所有使用者列表                     | 無                             | 包含所有使用者的陣列                       |
+| `GET`     | `/users/<user_id>` | 根據 ID 取得特定使用者                 | 無                             | 包含特定使用者資訊的物件                   |
+| `POST`    | `/users`           | 建立新使用者                           | `{ "username": "姓名", "age": 年齡 }` | 包含新建立的使用者資訊（含 `user_id`） |
+| `PUT`     | `/users/<user_id>` | 完全更新指定 ID 的使用者資訊           | `{ "username": "姓名", "age": 年齡 }` | 包含更新後的使用者資訊                     |
+| `PATCH`   | `/users/<user_id>` | 部分更新指定 ID 的使用者資訊           | `{ "username": "姓名" }` 或 `{ "age": 年齡 }` 或兩者皆有 | 包含更新後的使用者資訊                     |
+| `DELETE`  | `/users/<user_id>` | 刪除指定 ID 的使用者                   | 無                             | 包含已刪除的使用者資訊                     |
+
+**注意：**
+*   `<user_id>` 代表使用者的唯一識別碼。
+*   `POST`, `PUT`, `PATCH` 請求需要將 `Content-Type` 標頭設定為 `application/json`。
+*   成功建立 (`POST`) 的回應會在 `Location` 標頭中包含新資源的 URL。
 
 ## 其他有用資源
 1. Jinja 的管網及使用說明 [[連結](https://jinja.palletsprojects.com/en/stable/)]
