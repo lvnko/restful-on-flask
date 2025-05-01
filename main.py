@@ -1,8 +1,10 @@
 from flask import Flask
 from flask import render_template, request
+from models.Users import UserModel
 
 app = Flask("myapp", template_folder="./templates")
 app.config.from_object('config.DevelopmentConfig')
+userModel = UserModel("data/users.csv")
 
 @app.route('/')
 def login():
@@ -14,12 +16,7 @@ def index():
 
 @app.route('/users')
 def users():
-    userItems = [
-        { "username": "lvnko", "age": 20 },
-        { "username": "ivan", "age": 25 },
-        { "username": "petko", "age": 30 }
-    ]
-    return render_template("users.html", users=userItems)
+    return render_template("users.html", users=userModel.get_users())
 
 if __name__ == '__main__':
     app.run(port=8081)
