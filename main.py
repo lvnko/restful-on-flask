@@ -20,7 +20,7 @@ def get_users(user_id=None):
 
 @app.route('/users', methods=["POST"])
 def new_user():
-    userInput =  request.json
+    userInput = request.json
     user = userModel.new_user(username=userInput["username"], age=userInput["age"])
     response = jsonify(user)
     response.headers["location"] = f"/users/{user['user_id']}"

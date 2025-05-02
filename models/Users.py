@@ -21,7 +21,7 @@ class UserModel:
 
     def get_users(self, user_id):
         if user_id is None:
-            return self._users
+            return list(self._users.values())
         elif user_id in self._users:
             return self._users[user_id]
         else:
@@ -33,7 +33,7 @@ class UserModel:
         user = {"user_id": self._next_user_id, "username": username, "age": age }
         self._users[self._next_user_id] = user
         self._next_user_id += 1
-        return 
+        return user # Corrected: Return the created user dictionary
 
     def delete_user(self, user_id):
         if user_id in self._users:
