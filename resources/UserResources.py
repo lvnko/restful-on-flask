@@ -1,5 +1,7 @@
 from flask_restful import Resource, reqparse, fields, marshal_with
 from models.Users import UserModel
+from flask import current_app as app
+from flask import g
 userModel = UserModel("data/users.csv")
 
 class UserResources(Resource):
@@ -17,8 +19,8 @@ class UserResources(Resource):
     
     @marshal_with(user_fields)
     def get(self, user_id=None):
-        users = userModel.get_users(user_id) # Corrected: Call on the instance 'userModel'
-        return users, 200
+        app.logger.info(f"uuid: {g.uuid}, is_connected: {g.conn['is_connected']}")
+        return userModel.get_users(user_id), 200 # Corrected: Call on the instance 'userModel'
 
     @marshal_with(user_fields)
     def post(self):
