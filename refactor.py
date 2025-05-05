@@ -22,6 +22,11 @@ def postprocess(response):
     app.logger.info(response)
     return response
 
+@app.teardown_request
+def teardown_process(error):
+    app.logger.error(f"user-{g.uuid} has triggered an error: {error}")
+    g.conn["is_connected"] = False
+
 api.add_resource(UserResources, "/users", '/users/<int:user_id>')
 api.add_resource(ClassResources, "/classes", '/classes/<int:class_id>')
 api.add_resource(MessageResources, "/messages/<int:user_id>")

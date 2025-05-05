@@ -24,6 +24,7 @@ class UserResources(Resource):
             app.logger.info(f"User-{g.uuid} has sent a message before.")
         else:
             app.logger.info(f"User-{g.uuid} has not sent a message before.")
+            raise Exception("Cookie not found!")
 
         app.logger.info(request.cookies)
         app.logger.info(f"uuid: {g.uuid}, is_connected: {g.conn['is_connected']}")
