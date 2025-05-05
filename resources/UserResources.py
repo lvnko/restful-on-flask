@@ -1,4 +1,4 @@
-from flask_restful import Resource, reqparse, fields, marshal_with
+from flask_restful import Resource, reqparse, fields, marshal_with, request
 from models.Users import UserModel
 from flask import current_app as app
 from flask import g
@@ -19,6 +19,13 @@ class UserResources(Resource):
     
     @marshal_with(user_fields)
     def get(self, user_id=None):
+        sent_message_before = request.cookies.get("sent_message_before")
+        if sent_message_before == "true":
+            app.logger.info(f"User-{g.uuid} has sent a message before.")
+        else:
+            app.logger.info(f"User-{g.uuid} has not sent a message before.")
+
+        app.logger.info(request.cookies)
         app.logger.info(f"uuid: {g.uuid}, is_connected: {g.conn['is_connected']}")
         return userModel.get_users(user_id), 200 # Corrected: Call on the instance 'userModel'
 
