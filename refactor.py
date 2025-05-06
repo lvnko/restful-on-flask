@@ -4,27 +4,32 @@ from models.Users import UserModel
 from resources.UserResources import UserResources
 from resources.ClassResources import ClassResources
 from resources.MessageResources import MessageResources
-import uuid
+from utils.Performance import Performance
+import uuid, time
 
 app = Flask("myapp", template_folder="./templates")
 app.config.from_object('config.DevelopmentConfig')
 api = Api(app)
+performance = Performance("logs/performance.csv")
 
 @app.before_request
 def preprocess():
     g.uuid = uuid.uuid4()
     g.conn = { "is_connected": True }
+    g.start = time.time()
 
 @app.after_request
 def postprocess(response):
     g.conn["is_connected"] = False
-    app.logger.info(g.conn)
-    app.logger.info(response)
+    g.end = time.time()
+    g.status_code = response.status_code
+    performance.log(g)
     return response
 
 @app.teardown_request
 def teardown_process(error):
-    app.logger.error(f"user-{g.uuid} has triggered an error: {error}")
+    if error is not None:
+        app.logger.error(f"user-{g.uuid} has triggered an error: {error}")
     g.conn["is_connected"] = False
 
 api.add_resource(UserResources, "/users", '/users/<int:user_id>')

@@ -145,6 +145,69 @@ if __name__ == '__main__':
 
 以上涵蓋了在 Flask 應用程式中使用 Jinja 模板的基本概念。
 
+### Flask 請求生命週期處理函式 (Request Lifecycle Hooks)
+
+Flask 提供了一些裝飾器，允許您在請求處理的不同階段執行函式。這些對於執行如身份驗證、資料庫連線管理、日誌記錄或修改回應等任務非常有用。
+
+*   **`@app.before_request`**
+    *   **時機：** 在每個請求實際由視圖函數處理之前執行。
+    *   **用途：** 常用於身份驗證檢查、開啟資料庫連線、記錄請求資訊、或在請求物件 (`flask.request`) 可用後對其進行預處理。
+    *   **注意：** 如果此函式返回一個回應物件（或任何非 `None` 的值），Flask 將使用該回應，而不會呼叫相應的視圖函數。
+    ```python
+    from flask import g, request
+
+    @app.before_request
+    def load_current_user():
+        user_id = request.cookies.get('user_id')
+        if user_id:
+            g.user = get_user_from_db(user_id) # 假設的函數
+        else:
+            g.user = None
+    ```
+
+*   **`@app.after_request`**
+    *   **時機：** 在每個請求的視圖函數成功處理並產生回應之後，但在回應發送給客戶端之前執行。
+    *   **用途：** 常用於修改回應物件，例如添加自訂標頭、記錄回應資訊、或對回應內容進行後處理。
+    *   **注意：** 此函式必須接收一個回應物件作為參數，並且必須返回一個回應物件（可以是同一個或一個新的）。如果在請求處理期間發生未處理的例外，此函式不會執行。
+    ```python
+    @app.after_request
+    def add_header(response):
+        response.headers['X-Content-Type-Options'] = 'nosniff'
+        return response
+    ```
+
+*   **`@app.after_this_request`**
+    *   **時機：** 僅在當前請求的視圖函數成功處理並產生回應之後執行一次。
+    *   **用途：** 當您只需要為特定請求執行一次後處理操作時使用，例如在特定下載完成後設定一個 cookie。
+    *   **注意：** 與 `@app.after_request` 類似，它接收回應物件並必須返回一個回應物件。
+    ```python
+    from flask import after_this_request
+
+    @app.route('/set-cookie')
+    def set_cookie_route():
+        @after_this_request
+        def remember_me(response):
+            response.set_cookie('last_visit', 'true', max_age=60*60*24*7) # 7 天
+            return response
+        return "Cookie will be set for this request."
+    ```
+
+*   **`@app.teardown_request`**
+    *   **時機：** 在每個請求處理完成後執行，無論請求處理期間是否發生例外。
+    *   **用途：** 主要用於清理資源，例如關閉資料庫連線或釋放其他在請求期間分配的資源。
+    *   **注意：** 此函式接收一個參數，即在請求處理期間發生的例外物件（如果沒有例外，則為 `None`）。它不應該修改回應物件，並且其返回值會被忽略。
+    ```python
+    @app.teardown_request
+    def close_db_connection(exception=None):
+        db = getattr(g, '_database', None)
+        if db is not None:
+            db.close()
+        if exception:
+            app.logger.error(f"An exception occurred: {exception}")
+    ```
+
+這些請求鉤子為 Flask 應用程式提供了強大的擴展性，允許開發者在請求處理流程的關鍵點注入自訂邏輯。
+
 ## 一些有用的 Python 語法
 ### 靜態檔案
 
@@ -191,21 +254,35 @@ def profile(username):
 
 ## RESTful API 使用說明
 
-本專案提供了一組 RESTful API 端點，用於透過 HTTP 請求對 `data/users.csv` 中的使用者資料執行 CRUD（建立、讀取、更新、刪除）操作。
+本專案提供了一組 RESTful API 端點，用於管理使用者 (Users)、班級 (Classes) 和訊息 (Messages)。
 
-| HTTP 方法 | 路徑 (Path)        | 描述                                   | 請求主體 (Request Body) (JSON) | 回應 (Response) (JSON)                     |
-| :-------- | :----------------- | :------------------------------------- | :----------------------------- | :----------------------------------------- |
-| `GET`     | `/users`           | 取得所有使用者列表                     | 無                             | 包含所有使用者的陣列                       |
-| `GET`     | `/users/<user_id>` | 根據 ID 取得特定使用者                 | 無                             | 包含特定使用者資訊的物件                   |
-| `POST`    | `/users`           | 建立新使用者                           | `{ "username": "姓名", "age": 年齡 }` | 包含新建立的使用者資訊（含 `user_id`） |
-| `PUT`     | `/users/<user_id>` | 完全更新指定 ID 的使用者資訊           | `{ "username": "姓名", "age": 年齡 }` | 包含更新後的使用者資訊                     |
-| `PATCH`   | `/users/<user_id>` | 部分更新指定 ID 的使用者資訊           | `{ "username": "姓名" }` 或 `{ "age": 年齡 }` 或兩者皆有 | 包含更新後的使用者資訊                     |
-| `DELETE`  | `/users/<user_id>` | 刪除指定 ID 的使用者                   | 無                             | 包含已刪除的使用者資訊                     |
+**使用者 (Users) API**
+| HTTP 方法 | 路徑 (Path)        | 描述                                   | 請求主體 (Request Body) (JSON) & Headers | 回應 (Response) (JSON / Text)                     |
+| :-------- | :----------------- | :------------------------------------- | :--------------------------------------- | :------------------------------------------------ |
+| `GET`     | `/users`           | 取得所有使用者列表                     | 無                                       | 包含所有使用者的陣列 (200 OK)                     |
+| `GET`     | `/users/<user_id>` | 根據 ID 取得特定使用者                 | 無                                       | 包含特定使用者資訊的物件 (200 OK)                 |
+| `POST`    | `/users`           | 建立新使用者                           | `{ "username": "姓名 (必填)", "age": 年齡 (必填) }` | 包含新建立的使用者資訊 (含 `user_id`) (201 Created, Location header) |
+| `PUT`     | `/users/<user_id>` | 更新指定 ID 的使用者資訊 (可部分更新)  | `{ "username": "姓名", "age": 年齡 }` (欄位皆可選) | 包含更新後的使用者資訊 (200 OK)                   |
+| `PATCH`   | `/users/<user_id>` | 部分更新指定 ID 的使用者資訊           | `{ "username": "姓名", "age": 年齡 }` (欄位皆可選) | 包含更新後的使用者資訊 (200 OK)                   |
+| `DELETE`  | `/users/<user_id>` | 刪除指定 ID 的使用者                   | 無                                       | 包含已刪除的使用者資訊 (200 OK)                   |
+
+**班級 (Classes) API**
+| HTTP 方法 | 路徑 (Path)         | 描述                                   | 請求主體 (Request Body) (JSON) & Headers | 回應 (Response) (JSON / Text)                     |
+| :-------- | :------------------ | :------------------------------------- | :--------------------------------------- | :------------------------------------------------ |
+| `GET`     | `/classes`          | 取得所有班級列表                       | 無                                       | 包含所有班級資訊的陣列 (含使用者列表) (200 OK)    |
+| `GET`     | `/classes/<class_id>`| 根據 ID 取得特定班級                   | 無                                       | 包含特定班級資訊的物件 (含使用者列表) (200 OK)  |
+
+**訊息 (Messages) API**
+| HTTP 方法 | 路徑 (Path)           | 描述                                   | 請求主體 (Request Body) (JSON) & Headers | 回應 (Response) (JSON / Text)                     |
+| :-------- | :-------------------- | :------------------------------------- | :--------------------------------------- | :------------------------------------------------ |
+| `POST`    | `/messages/<user_id>` | 為指定使用者提交訊息 (非同步處理)      | Body: `{ "data_date": "日期 (必填)", "location": "地點 (必填)" }`<br>Header: `token: xuemi-token` | "Acknowledged" (202 Accepted)                     |
 
 **注意：**
-*   `<user_id>` 代表使用者的唯一識別碼。
-*   `POST`, `PUT`, `PATCH` 請求需要將 `Content-Type` 標頭設定為 `application/json`。
-*   成功建立 (`POST`) 的回應會在 `Location` 標頭中包含新資源的 URL。
+*   `<user_id>` 和 `<class_id>` 代表資源的唯一識別碼。
+*   所有 `POST`, `PUT`, `PATCH` 請求的請求主體應為 JSON 格式，且 `Content-Type` 標頭應設定為 `application/json`。
+*   使用者 `POST` 請求成功建立後，回應會在 `Location` 標頭中包含新資源的 URL。
+*   訊息 `POST` 請求需要一個值為 `xuemi-token` 的 `token` 標頭進行驗證。若 token 遺失，回應 401；若 token 無效，回應 403。
+*   訊息 `POST` 請求成功後會設定 `sent_message_before=true` 和 `message_only=1` (路徑 `/messages`) 的 cookies。
 
 ### 常見 HTTP/API 狀態碼說明
 
@@ -267,5 +344,29 @@ API 回應通常會包含一個 HTTP 狀態碼，用來表示請求的處理結�
     *   **意義：** 伺服器目前無法處理請求（可能是由於過載或正在進行維護）。這通常是暫時性的狀態。
     *   **常見場景：** 伺服器負載過高、正在部署新版本、或依賴的外部服務暫時中斷。
 
+### 常見 API 效能指標
+
+監控 API 的效能對於確保其穩定性和可靠性至關重要。以下是一些關鍵的效能指標：
+
+*   **每秒請求數 (Requests Per Second, RPS)**
+    *   **意義：** 指標量測伺服器在一秒鐘內能夠成功處理的請求數量。它反映了 API 的吞吐量和處理能力。
+    *   **用途：** 用於評估 API 的負載能力，進行容量規劃，以及偵測效能瓶頸。較高的 RPS 通常表示較好的處理能力。
+
+*   **回應時間 (Response Time / Latency)**
+    *   **意義：** 指從客戶端發送請求到接收到伺服器完整回應所花費的總時間。通常以毫秒 (ms) 為單位。
+    *   **用途：** 衡量 API 的反應速度。較低的回應時間表示使用者體驗較好。監控平均回應時間、P95/P99 百分位數回應時間（95% 或 99% 的請求在此時間內完成）有助於全面了解效能。
+    *   **計算 P99 回應時間：**
+        *   P99 回應時間指的是 99% 的請求其回應時間都「快於或等於」此數值。換句話說，只有 1% 的請求比這個值慢。
+        *   計算步驟：
+            1.  **收集數據：** 收集在特定時間段內所有請求的回應時間數據。
+            2.  **排序：** 將所有收集到的回應時間由小到大排序。
+            3.  **取值：** 找出排序後位於第 99 百分位數的值。例如，如果您有 1000 個請求記錄，P99 就是排序後第 990 個請求的回應時間 (1000 * 0.99 = 990)。如果有 100 個請求，P99 就是第 99 個請求的回應時間。
+        *   **重要性：** P99 (以及 P95、P90 等百分位數) 比平均回應時間更能反映大多數使用者的體驗，因為它不容易受到極少數異常慢的請求影響，從而更準確地呈現 API 在高負載或峰值情況下的「最差情況」效能。
+
+*   **錯誤率 (Error Rate)**
+    *   **意義：** 指在一段時間內，導致錯誤（通常是 4xx 或 5xx 狀態碼）的請求佔總請求數量的百分比。
+    *   **用途：** 反映 API 的穩定性和可靠性。持續偏高的錯誤率表示 API 可能存在問題（程式碼錯誤、資源不足、相依服務問題等），需要進行調查和修復。
+
 ## 其他有用資源
 1. Jinja 的管網及使用說明 [[連結](https://jinja.palletsprojects.com/en/stable/)]
+2. 三方伺服器 Logging 管理服務：Centralize / elastic search
