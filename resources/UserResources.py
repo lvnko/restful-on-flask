@@ -19,16 +19,13 @@ class UserResources(Resource):
     
     @marshal_with(user_fields)
     def get(self, user_id=None):
-        sent_message_before = request.cookies.get("sent_message_before")
-        if sent_message_before == "true":
-            app.logger.info(f"User-{g.uuid} has sent a message before.")
-        else:
-            app.logger.info(f"User-{g.uuid} has not sent a message before.")
-            raise Exception("Cookie not found!")
-
-        app.logger.info(request.cookies)
+        # 關於原先在這裡被移除的代碼，可以在這個 branch 重溫 : lesson#04
+        parser = self.parser
+        parser.add_argument("items", type=int, help="It's an integer that represent the number of users.")
+        parser.add_argument("offset",  type=int, help="The beginning index of users.")
+        args = parser.parse_args()
         app.logger.info(f"uuid: {g.uuid}, is_connected: {g.conn['is_connected']}")
-        return userModel.get_users(user_id), 200 # Corrected: Call on the instance 'userModel'
+        return userModel.get_users(user_id, items=args.get("items"), offset=args.get("offset")), 200 # Corrected: Call on the instance 'userModel'
 
     @marshal_with(user_fields)
     def post(self):

@@ -19,9 +19,11 @@ class UserModel:
                 f.write(f"{u['user_id']},{u['username']},{u['age']}\n")
 
 
-    def get_users(self, user_id):
+    def get_users(self, user_id, items=None, offset=None):
         if user_id is None:
-            return list(self._users.values())
+            items = len(self._users) if items is None else items
+            offset = 0 if offset is None else offset
+            return list(self._users.values())[offset:offset + items]
         elif user_id in self._users:
             return self._users[user_id]
         else:
