@@ -1,5 +1,22 @@
 # Week #024 ~ #025
 
+## 專案啟動選項與步驟
+
+1. 使用 conda 創建一個 environment
+```bash
+# 請選擇你想要的 env 名稱，並取代以下 {{ENV_NAME}} 的字串
+conda create -n {{ENV_NAME}} python=3.6 flask flask-restful -c conda-forge -y
+# 安裝完成後啟動剛剛創建的 environment
+conda activate {{ENV_NAME}}
+```
+2. 啟動專案的 api server
+```bash
+# 第一至第二堂製作的 API 編程，該時還沒有採用 flask_restful
+python main.py
+# 第三堂與之後的 API 編程
+python refactor.py
+```
+
 ## 使用 Jinja 模板的 Flask 專案
 
 以下整理了 Flask 搭配 Jinja 模板引擎的基本用法。
@@ -18,7 +35,7 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/')     
 def index():
     # 傳遞給模板的資料
     user_name = "訪客"
