@@ -15,19 +15,21 @@ class UserResources(Resource):
     
     def __init__(self):
         self.parser = reqparse.RequestParser(bundle_errors=True)
-        self.parser.add_argument("username", type=str, help="Username must be a string.")
-        self.parser.add_argument("age", type=int, help="Age must be an integer.")
+        # Arguments for POST/PUT/PATCH
+        self.parser.add_argument("username", type=str, help="Username must be a string.", location=['json', 'form'])
+        self.parser.add_argument("age", type=int, help="Age must be an integer.", location=['json', 'form'])
     
     @marshal_with(user_fields)
     def get(self, user_id=None):
         token = request.headers.get("token")
         if token is not None and token == "MY_API_SECRET":
-            parser = self.parser
-            parser.add_argument("items", type=int, help="It's an integer that represent the number of users.")
-            parser.add_argument("offset",  type=int, help="The beginning index of users.")
-            parser.add_argument("filter_by", type=str, help="A string to define search criteria.")
-            parser.add_argument("sort_by", type=str, help="A string to define sort criteria.")
-            args = parser.parse_args()
+            # Parser for GET request query parameters
+            get_parser = reqparse.RequestParser(bundle_errors=True)
+            get_parser.add_argument("items", type=int, help="It's an integer that represent the number of users.", location='args')
+            get_parser.add_argument("offset",  type=int, help="The beginning index of users.", location='args')
+            get_parser.add_argument("filter_by", type=str, help="A string to define search criteria.", location='args')
+            get_parser.add_argument("sort_by", type=str, help="A string to define sort criteria.", location='args')
+            args = get_parser.parse_args()
             app.logger.info(f"uuid: {g.uuid}, is_connected: {g.conn['is_connected']}")
             return userModel.get_users(
                 user_id,
