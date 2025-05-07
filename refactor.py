@@ -1,15 +1,10 @@
-from flask import Flask, request, jsonify, g
-from flask_restful import Api
-from models.Users import UserModel
-from resources.UserResources import UserResources
-from resources.ClassResources import ClassResources
-from resources.MessageResources import MessageResources
+from flask import Flask, jsonify, g
 from utils.Performance import Performance
+from v1 import v1_bp
 import uuid, time
 
 app = Flask("myapp", template_folder="./templates")
 app.config.from_object('config.DevelopmentConfig')
-api = Api(app)
 performance = Performance("logs/performance.csv")
 
 @app.before_request
@@ -32,10 +27,8 @@ def teardown_process(error):
         app.logger.error(f"user-{g.uuid} has triggered an error: {error}")
     g.conn["is_connected"] = False
 
-api.add_resource(UserResources, "/users", '/users/<int:user_id>')
-api.add_resource(ClassResources, "/classes", '/classes/<int:class_id>')
-api.add_resource(MessageResources, "/messages/<int:user_id>")
-
+app.register_blueprint(v1_bp, url_prefix="/v1")
 
 if __name__ == '__main__':
+    print(app.url_map)
     app.run(port=8081)

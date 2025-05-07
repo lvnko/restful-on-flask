@@ -370,3 +370,4 @@ API 回應通常會包含一個 HTTP 狀態碼，用來表示請求的處理結�
 ## 其他有用資源
 1. Jinja 的管網及使用說明 [[連結](https://jinja.palletsprojects.com/en/stable/)]
 2. 三方伺服器 Logging 管理服務：Centralize / elastic search
+3. Flask 官網上關於模組化應用的描述 [[連結](https://flask.palletsprojects.com/en/stable/blueprints/)]

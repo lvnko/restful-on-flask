@@ -1,8 +1,9 @@
 from flask_restful import Resource, reqparse, fields, marshal_with, request
-from models.Users import UserModel
+from ..models.Users import UserModel
 from flask import current_app as app
 from flask import g
-userModel = UserModel("data/users.csv")
+import pathlib, os
+userModel = UserModel(os.path.join(pathlib.Path(__file__).parent, "../data/users.csv"))
 
 class UserResources(Resource):
 

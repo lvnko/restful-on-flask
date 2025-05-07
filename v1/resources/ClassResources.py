@@ -1,5 +1,5 @@
 from flask_restful import Resource, fields, marshal_with
-from resources.UserResources import UserResources, userModel
+from .UserResources import UserResources, userModel
 
 class ClassSizeField(fields.Raw):
     def format(self, users):
