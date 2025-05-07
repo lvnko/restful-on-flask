@@ -23,9 +23,15 @@ class UserResources(Resource):
         parser = self.parser
         parser.add_argument("items", type=int, help="It's an integer that represent the number of users.")
         parser.add_argument("offset",  type=int, help="The beginning index of users.")
+        parser.add_argument("filter_by", type=str, help="A string to define search criteria.")
         args = parser.parse_args()
         app.logger.info(f"uuid: {g.uuid}, is_connected: {g.conn['is_connected']}")
-        return userModel.get_users(user_id, items=args.get("items"), offset=args.get("offset")), 200 # Corrected: Call on the instance 'userModel'
+        return userModel.get_users(
+            user_id,
+            items=args.get("items"),
+            offset=args.get("offset"),
+            filter_by=args.get("filter_by")
+        ), 200 # Corrected: Call on the instance 'userModel'
 
     @marshal_with(user_fields)
     def post(self):

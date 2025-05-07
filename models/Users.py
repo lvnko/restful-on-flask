@@ -19,15 +19,25 @@ class UserModel:
                 f.write(f"{u['user_id']},{u['username']},{u['age']}\n")
 
 
-    def get_users(self, user_id, items=None, offset=None):
+    def get_users(self, user_id, items=None, offset=None, filter_by=None):
         if user_id is None:
             items = len(self._users) if items is None else items
             offset = 0 if offset is None else offset
-            return list(self._users.values())[offset:offset + items]
+            users = list(self._users.values())[offset:offset + items]
+            return users if filter_by is None else self.filter(users, filter_by)
         elif user_id in self._users:
             return self._users[user_id]
         else:
             return {}
+    
+    def filter(self, users, filter_by):
+        for opr in [">", "=", "<"]:
+            if opr in filter_by:
+                field, val = filter_by.split(opr)
+                opr = "==" if opr == "=" else opr
+                return [user for user in users if field in user and eval(f"{user[field]}{opr}{val}")]
+        return []
+
     
     def new_user(self, username="", age=""):
         with open(self.fpath, "a") as f:
