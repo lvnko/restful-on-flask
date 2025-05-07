@@ -3,7 +3,7 @@
 ## 專案啟動選項與步驟
 
 1. 使用 conda 創建一個 environment
-```bash
+```shell
 # 請選擇你想要的 env 名稱，並取代以下 {{ENV_NAME}} 的字串
 conda create -n {{ENV_NAME}} python=3.6 flask flask-restful -c conda-forge -y
 
@@ -11,7 +11,7 @@ conda create -n {{ENV_NAME}} python=3.6 flask flask-restful -c conda-forge -y
 conda activate {{ENV_NAME}}
 ```
 2. 啟動專案的 api server
-```bash
+```shell
 # 第一至第二堂製作的 API 編程，該時還沒有採用 flask_restful
 python main.py
 
