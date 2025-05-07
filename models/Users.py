@@ -19,12 +19,12 @@ class UserModel:
                 f.write(f"{u['user_id']},{u['username']},{u['age']}\n")
 
 
-    def get_users(self, user_id, items=None, offset=None, filter_by=None):
+    def get_users(self, user_id, items=None, offset=None, filter_by=None, sort_by=None):
         if user_id is None:
             items = len(self._users) if items is None else items
             offset = 0 if offset is None else offset
             users = list(self._users.values())[offset:offset + items]
-            return users if filter_by is None else self.filter(users, filter_by)
+            return self.sort(users if filter_by is None else self.filter(users, filter_by), sort_by)
         elif user_id in self._users:
             return self._users[user_id]
         else:
@@ -37,7 +37,17 @@ class UserModel:
                 opr = "==" if opr == "=" else opr
                 return [user for user in users if field in user and eval(f"{user[field]}{opr}{val}")]
         return []
-
+    
+    def sort(self, users, sort_by):
+        if sort_by is None:
+            return users
+        else:
+            # e.g. sort_by = age.desc
+            field, order = sort_by.split(".")
+            if field in list(self._users.values())[0]:
+                return sorted(users, key=lambda user: user[field], reverse= order == "desc")
+            else:
+                return []
     
     def new_user(self, username="", age=""):
         with open(self.fpath, "a") as f:
