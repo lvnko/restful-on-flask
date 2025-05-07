@@ -6,6 +6,7 @@
 ```bash
 # 請選擇你想要的 env 名稱，並取代以下 {{ENV_NAME}} 的字串
 conda create -n {{ENV_NAME}} python=3.6 flask flask-restful -c conda-forge -y
+
 # 安裝完成後啟動剛剛創建的 environment
 conda activate {{ENV_NAME}}
 ```
@@ -13,6 +14,7 @@ conda activate {{ENV_NAME}}
 ```bash
 # 第一至第二堂製作的 API 編程，該時還沒有採用 flask_restful
 python main.py
+
 # 第三堂與之後的 API 編程
 python refactor.py
 ```
