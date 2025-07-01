@@ -1,8 +1,8 @@
 from flask_restful import Resource, reqparse, fields, marshal_with, request
 from ..models.Users import UserModel
 from flask import current_app as app
-from flask import g
-import pathlib, os
+from flask import g, session
+import pathlib, os, werkzeug
 userModel = UserModel(os.path.join(pathlib.Path(__file__).parent, "../data/users.csv"))
 
 class UserResources(Resource):
@@ -21,25 +21,31 @@ class UserResources(Resource):
     
     @marshal_with(user_fields)
     def get(self, user_id=None):
-        token = request.headers.get("token")
-        if token is not None and token == "MY_API_SECRET":
-            # Parser for GET request query parameters
-            get_parser = reqparse.RequestParser(bundle_errors=True)
-            get_parser.add_argument("items", type=int, help="It's an integer that represent the number of users.", location='args')
-            get_parser.add_argument("offset",  type=int, help="The beginning index of users.", location='args')
-            get_parser.add_argument("filter_by", type=str, help="A string to define search criteria.", location='args')
-            get_parser.add_argument("sort_by", type=str, help="A string to define sort criteria.", location='args')
-            args = get_parser.parse_args()
-            app.logger.info(f"uuid: {g.uuid}, is_connected: {g.conn['is_connected']}")
-            return userModel.get_users(
-                user_id,
-                items=args.get("items"),
-                offset=args.get("offset"),
-                filter_by=args.get("filter_by"),
-                sort_by=args.get("sort_by")
-            ), 200 # Corrected: Call on the instance 'userModel'
-        else:
-            return {"message": "Unauthorized access"}, 403
+        # token = request.headers.get("token")
+        # if token is not None and token == "MY_API_SECRET":
+        print(f"user_id => {session.get('user_id')}")
+        if session.get("user_id") is None:
+            raise werkzeug.exceptions.Unauthorized("Please login before accessing this API.")
+        print(session)
+        # session["user_id"] = 1
+        # Parser for GET request query parameters
+        get_parser = reqparse.RequestParser(bundle_errors=True)
+        get_parser.add_argument("items", type=int, help="It's an integer that represent the number of users.", location='args')
+        get_parser.add_argument("offset",  type=int, help="The beginning index of users.", location='args')
+        get_parser.add_argument("filter_by", type=str, help="A string to define search criteria.", location='args')
+        get_parser.add_argument("sort_by", type=str, help="A string to define sort criteria.", location='args')
+        args = get_parser.parse_args()
+        # app.logger.info(f"uuid: {g.uuid}, is_connected: {g.conn['is_connected']}")
+        return userModel.get_users(
+            user_id,
+            items=args.get("items"),
+            offset=args.get("offset"),
+            filter_by=args.get("filter_by"),
+            sort_by=args.get("sort_by")
+        ), 200 # Corrected: Call on the instance 'userModel'
+    
+        # else:
+        #     return {"message": "Unauthorized access"}, 403
 
     @marshal_with(user_fields)
     def post(self):

@@ -386,6 +386,51 @@ API 回應通常會包含一個 HTTP 狀態碼，用來表示請求的處理結�
     *   **意義：** 指在一段時間內，導致錯誤（通常是 4xx 或 5xx 狀態碼）的請求佔總請求數量的百分比。
     *   **用途：** 反映 API 的穩定性和可靠性。持續偏高的錯誤率表示 API 可能存在問題（程式碼錯誤、資源不足、相依服務問題等），需要進行調查和修復。
 
+## 客戶端 Session (Client-side Session) 的優缺點
+<table>
+  <thead>
+    <tr>
+        <th>種類</th>
+        <th>優點 (Pros)</th>
+        <th>缺點 (Cons)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan=3>客戶端 Session (Client-side Session)</td>
+      <td>Low latency. Validating and creating sessions is fast as it doesn't need to hit the data-store</td>
+      <td>Session can't revoke immediately.</td>
+    </tr>
+    <tr>
+      <td>No state to manage on servers</td>
+      <td>Cookie size is greater</td>
+    </tr>
+    <tr>
+      <td>New web server can be added instantly</td>
+      <td>User details are exposed</td>
+    </tr>
+    <tr>
+      <td rowspan=3>伺服器端 Session (Server-side Session)</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+
+## 常用指令
+```
+python3 -m pip install
+```
+
 ## 其他有用資源
 1. Jinja 的管網及使用說明 [[連結](https://jinja.palletsprojects.com/en/stable/)]
 2. 三方伺服器 Logging 管理服務：Centralize / elastic search
