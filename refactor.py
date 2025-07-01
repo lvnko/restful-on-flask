@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, g, session
+from flask_session import Session
 from utils.Performance import Performance
 from v1 import v1_bp
 from v2 import v2_bp
@@ -7,7 +8,8 @@ import uuid, time, datetime
 app = Flask("myapp", template_folder="./templates")
 app.config.from_object('config.DevelopmentConfig')
 app.config["SECRET_KEY"] = "wow_unique_key"
-# app.config["PERMANENT_SESSION_LIFETIME"] = datetime.timedelta(seconds=5)
+app.config["SESSION_TYPE"] = "filesystem"
+app.config["SESSION_FILE_DIR"] = "./sessions"
 performance = Performance("logs/performance.csv")
 
 @app.before_request
