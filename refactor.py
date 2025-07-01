@@ -7,7 +7,7 @@ import uuid, time, datetime
 app = Flask("myapp", template_folder="./templates")
 app.config.from_object('config.DevelopmentConfig')
 app.config["SECRET_KEY"] = "wow_unique_key"
-# app.config["PERMANENT_SESSION_LIFETIME"] = datetime.timedelta(seconds=5)
+# app.config["PERMANENT_SESSION_LIFETIME"] = datetime.timedelta(seconds=5) # 設定 Session 的生效時間有多久
 performance = Performance("logs/performance.csv")
 
 @app.before_request
