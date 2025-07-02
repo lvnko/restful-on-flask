@@ -1,7 +1,11 @@
 # Python : 後端開發與網站安管理
 
-Week #24 ~ #25：後端框架與 API 開發
-Week #30 ~ #33：網站安全與權限認證
+## A. 專案概覽
+本專案中包括了兩個單元的學習筆記與練習，它們被整理在不同的開發分支中 (branch)，詳列如下：
+- **Week #24 ~ #25** [``lesson#05``](https://github.com/lvnko/restful-on-flask/tree/lesson%2305)：<br/>
+    後端框架與 API 開發
+* Week #30 ~ #33：[``main``](https://github.com/lvnko/restful-on-flask/tree/main)：<br/>
+    網站安全與權限認證
 
 ## 專案啟動選項與步驟
 
