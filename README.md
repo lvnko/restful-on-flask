@@ -3,18 +3,23 @@
 ## A. 專案版本 (分支)
 本專案中包括了兩個單元的學習筆記與練習，它們被整理在不同的開發分支中 (branch)，詳列如下：
 - **Week #24 ~ #25** [``lesson#05``](https://github.com/lvnko/restful-on-flask/tree/lesson%2305)：<br/>
-    後端框架與 API 開發
-* Week #30 ~ #33：[``main``](https://github.com/lvnko/restful-on-flask/tree/main)：<br/>
+    後端框架與 API 開發    
+- **Week #30 ~ #33** [``main``](https://github.com/lvnko/restful-on-flask/tree/main)：<br/>
     網站安全與權限認證
 
-## B. 專案概覽
+## B. 專案檔案概覽
+關於本專案的檔案分佈可以參考以下簡錄：
+- **學習筆記** [``/docs/overview.md``](/docs/overview.md)：<br/>
+    關於各章節學習內容的筆記
+- **課程練習** [``/README.md#c-專案啟動選項與步驟``](#c-專案啟動選項與步驟)：<br/>
+    這次的學習內容主要以 RESTful API 的架設與不同的使用功能做練習，可跟隨本文的章節 #C 來練習
 
 ## C. 專案啟動選項與步驟
 
-### 1. 創建一個開發 environment
+### C.1. 創建開發 environment
 在以下選擇你熟悉的工具來創建你的開發環境：
 
-#### 1.a. 使用 Conda 創建
+#### C.1.a. 使用 Conda 創建
 如果你習慣使用 Conda，可以依照以下步驟設定環境：
 
 1.  **打開終端機**：
@@ -47,7 +52,7 @@
     *   輸入 `Python: Select Interpreter`。
     *   從列表中選擇名為 `restful-flask` 的 Conda 環境。
 
-#### 1.b. 使用 Venv 創建
+#### C.1.b. 使用 Venv 創建
 在 VS Code 中，你可以按照以下步驟操作：
 
 1.  **打開終端機**：
@@ -70,7 +75,7 @@
     pip install -r requirements.txt
     ```
 
-### 2. 啟動專案的 api server
+### C.2. 啟動專案的 api server
 ```shell
 # Week #24 ~ #25 第二堂及之前製作的 API 編程，該時還沒有採用 flask_restful
 python main.py
