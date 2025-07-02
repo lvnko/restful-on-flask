@@ -116,9 +116,13 @@ python refactor.py
 *   訊息 `POST` 請求需要一個值為 `xuemi-token` 的 `token` 標頭進行驗證。若 token 遺失，回應 401；若 token 無效，回應 403。
 *   訊息 `POST` 請求成功後會設定 `sent_message_before=true` 和 `message_only=1` (路徑 `/messages`) 的 cookies。
 
-## 常用指令
+## 常用指令參考
 ```
+# 以下的指令可以確保模組安裝的版本與目的地皆與當前所使用的 Python 版本環境相容
 python3 -m pip install
+python3 -m pip install -r requirements.txt
+# 把當前依賴模組列與其版本寫在 ``requirements.txt`` 這個檔案中
+pip freeze > requirements.txt
 ```
 
 ## 其他有用資源
