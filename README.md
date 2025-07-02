@@ -72,10 +72,10 @@
 
 ### 2. 啟動專案的 api server
 ```shell
-# 第一至第二堂製作的 API 編程，該時還沒有採用 flask_restful
+# Week #24 ~ #25 第二堂及之前製作的 API 編程，該時還沒有採用 flask_restful
 python main.py
 
-# 第三堂與之後的 API 編程
+# 最新的 API 編程
 python refactor.py
 ```
 
