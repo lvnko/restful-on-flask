@@ -141,6 +141,7 @@ python refactor.py
 # 以下的指令可以確保模組安裝的版本與目的地皆與當前所使用的 Python 版本環境相容
 python3 -m pip install
 python3 -m pip install -r requirements.txt
+
 # 把當前依賴模組列與其版本寫在 ``requirements.txt`` 這個檔案中
 pip freeze > requirements.txt
 ```
