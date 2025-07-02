@@ -10,6 +10,7 @@ app.config.from_object('config.DevelopmentConfig')
 app.config["SECRET_KEY"] = "wow_unique_key"
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_FILE_DIR"] = "./sessions"
+Session(app)
 performance = Performance("logs/performance.csv")
 
 @app.before_request

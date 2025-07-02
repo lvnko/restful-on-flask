@@ -21,3 +21,6 @@ __pycache__/
 */*.pyo
 *.pyd
 */*.pyd
+
+# sessions
+sessions/*

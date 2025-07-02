@@ -19,7 +19,7 @@ class LoginResources(Resource):
             session["user_id"] = 1
             session["is_logged_in"] = True
 
-            for dummy in range(500):
+            for dummy in range(500): # 製造數據量來比較兩種 Sessions 在客戶端所留下的檔案大小差異
                 session[f"dummy_{dummy}"] = dummy
         else:
             raise werkzeug.exceptions.BadRequest("username/password cannot be found!")

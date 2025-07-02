@@ -410,21 +410,23 @@ API 回應通常會包含一個 HTTP 狀態碼，用來表示請求的處理結�
       <td>User details are exposed</td>
     </tr>
     <tr>
-      <td rowspan=3>伺服器端 Session (Server-side Session)</td>
-      <td></td>
-      <td></td>
+      <td rowspan=4>伺服器端 Session (Server-side Session)</td>
+      <td>Can revoke a session instantly.</td>
+      <td>Replication has a performance cost and increases complexity.</td>
     </tr>
     <tr>
-      <td></td>
-      <td></td>
+      <td>Cookie size is smaller.</td>
+      <td>A central store will limit scaling and increase latency.</td>
     </tr>
     <tr>
-      <td></td>
-      <td></td>
+      <td>User details are not exposed</td>
+      <td rowspan=2>Confining users to a specific server leads to problems when that server needs to come down</td>
+    </tr>
+    <tr>
+      <td>Replicate that session data across all of the web servers</td>
     </tr>
   </tbody>
 </table>
-
 
 ## 常用指令
 ```
