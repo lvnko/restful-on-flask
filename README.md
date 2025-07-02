@@ -11,16 +11,66 @@
 
 ## C. 專案啟動選項與步驟
 
-1. 創建一個開發 environment
-    - 使用 conda 創建
-    ```shell
-    # 請選擇你想要的 env 名稱，並取代以下 {{ENV_NAME}} 的字串
-    conda create -n {{ENV_NAME}} python=3.6 flask flask-restful -c conda-forge -y
+### 1. 創建一個開發 environment
+在以下選擇你熟悉的工具來創建你的開發環境：
 
-    # 安裝完成後啟動剛剛創建的 environment
-    conda activate {{ENV_NAME}}
-```
-2. 啟動專案的 api server
+#### 1.a. 使用 Conda 創建
+如果你習慣使用 Conda，可以依照以下步驟設定環境：
+
+1.  **打開終端機**：
+    開啟你的終端機應用程式 (例如 Terminal, iTerm2, 或 Conda Prompt)。
+
+2.  **創建 Conda 環境**：
+    執行以下指令來創建一個新的 Conda 環境。這裡我們使用專案指定的 Python 版本 `3.10.18`，並將環境命名為 `restful-flask`（你也可以自訂名稱）。
+    ```shell
+    conda create -n restful-flask python=3.10.18 -y
+    # 或參考以下的指令去完成依賴模組的安裝
+    # conda create -n {{ENV_NAME}} python=3.10.18 flask flask-restful flask-session flask-unsign Jinja2 -c conda-forge -y
+    # 這樣的話，你便不需要執行之後的第 4. 個步驟。
+    ```
+
+3.  **啟用 Conda 環境**：
+    創建完成後，啟用該環境。
+    ```shell
+    conda activate restful-flask
+    ```
+    啟用後，你會在終端機提示符前看到環境名稱 `(restful-flask)`。
+
+4.  **安裝相依套件**：
+    在已啟用的環境中，使用 `pip` 和 `requirements.txt` 檔案來安裝所有專案需要的套件。
+    ```shell
+    pip install -r requirements.txt
+    ```
+
+5.  **(可選) 在 VS Code 中選擇直譯器**：
+    *   按下 `Cmd + Shift + P` (macOS) 或 `Ctrl + Shift + P` (Windows/Linux) 開啟命令面板。
+    *   輸入 `Python: Select Interpreter`。
+    *   從列表中選擇名為 `restful-flask` 的 Conda 環境。
+
+#### 1.b. 使用 Venv 創建
+在 VS Code 中，你可以按照以下步驟操作：
+
+1.  **打開終端機**：
+    在 VS Code 中，透過 `Terminal` > `New Terminal` 開啟一個新的終端機。
+
+2.  **創建虛擬環境**：
+    在終端機中輸入以下指令來創建一個名為 `.venv` 的虛擬環境。VS Code 會自動偵測到這個環境。
+    ```shell
+    python3 -m venv .venv
+    ```
+
+3.  **選擇直譯器 (Interpreter)**：
+    *   按下 `Cmd + Shift + P` (macOS) 或 `Ctrl + Shift + P` (Windows/Linux) 來開啟命令面板。
+    *   輸入 `Python: Select Interpreter`。
+    *   從列表中選擇 `./.venv/bin/python`。這會讓 VS Code 在此後自動為你啟用該環境。
+
+4.  **安裝相依套件**：
+    選擇直譯器後，VS Code 可能會提示你 `requirements.txt` 中的套件尚未安裝。你也可以手動在已啟用虛擬環境的終端機中執行以下指令來安裝所有必要的套件：
+    ```shell
+    pip install -r requirements.txt
+    ```
+
+### 2. 啟動專案的 api server
 ```shell
 # 第一至第二堂製作的 API 編程，該時還沒有採用 flask_restful
 python main.py
