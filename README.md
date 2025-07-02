@@ -1,21 +1,24 @@
 # Python : 後端開發與網站安管理
 
-## A. 專案概覽
+## A. 專案版本 (分支)
 本專案中包括了兩個單元的學習筆記與練習，它們被整理在不同的開發分支中 (branch)，詳列如下：
 - **Week #24 ~ #25** [``lesson#05``](https://github.com/lvnko/restful-on-flask/tree/lesson%2305)：<br/>
     後端框架與 API 開發
 * Week #30 ~ #33：[``main``](https://github.com/lvnko/restful-on-flask/tree/main)：<br/>
     網站安全與權限認證
 
-## 專案啟動選項與步驟
+## B. 專案概覽
 
-1. 使用 conda 創建一個 environment
-```shell
-# 請選擇你想要的 env 名稱，並取代以下 {{ENV_NAME}} 的字串
-conda create -n {{ENV_NAME}} python=3.6 flask flask-restful -c conda-forge -y
+## C. 專案啟動選項與步驟
 
-# 安裝完成後啟動剛剛創建的 environment
-conda activate {{ENV_NAME}}
+1. 創建一個開發 environment
+    - 使用 conda 創建
+    ```shell
+    # 請選擇你想要的 env 名稱，並取代以下 {{ENV_NAME}} 的字串
+    conda create -n {{ENV_NAME}} python=3.6 flask flask-restful -c conda-forge -y
+
+    # 安裝完成後啟動剛剛創建的 environment
+    conda activate {{ENV_NAME}}
 ```
 2. 啟動專案的 api server
 ```shell
@@ -393,7 +396,7 @@ API 回應通常會包含一個 HTTP 狀態碼，用來表示請求的處理結�
     *   **意義：** 指在一段時間內，導致錯誤（通常是 4xx 或 5xx 狀態碼）的請求佔總請求數量的百分比。
     *   **用途：** 反映 API 的穩定性和可靠性。持續偏高的錯誤率表示 API 可能存在問題（程式碼錯誤、資源不足、相依服務問題等），需要進行調查和修復。
 
-## 客戶端 Session (Client-side Session) 的優缺點
+## 不同網站 Session 部署之優缺
 <table>
   <thead>
     <tr>
