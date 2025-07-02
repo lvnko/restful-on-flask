@@ -87,12 +87,11 @@ python refactor.py
 ## D. RESTful API 使用說明
 
 本專案提供了一組 RESTful API 端點，用於管理使用者 (Users)、班級 (Classes) 和訊息 (Messages)。你可以用如 Postman 這樣的 API Client 來嘗試訪問：
-```shell
-# 注意：由於這個 API 有分 v1 與 v2 兩個 blueprint
-# 訪問時請在端點路徑中指定才能成功訪問，格式參考如下例子:
-http://localhost:8081/v1/classes
-http://localhost:8081/v2/users
-```
+> [!TIP]
+> 注意：由於這個 API 有分 v1 與 v2 兩個 blueprint
+> 訪問時請在端點路徑中指定才能成功訪問，格式參考如下例子:
+> ``http://localhost:8081/v1/classes``
+> ``http://localhost:8081/v2/users``
 
 **使用者 (Users) API**
 >支援版本： `v1`, `v2`
