@@ -89,6 +89,9 @@ python refactor.py
 本專案提供了一組 RESTful API 端點，用於管理使用者 (Users)、班級 (Classes) 和訊息 (Messages)。你可以用如 Postman 這樣的 API Client 來嘗試訪問：
 
 **使用者 (Users) API**
+>支援版本： `v1`, `v2`
+>注意：在 `v2` 版本中，`GET` 請求需要先登入 (參考 `v2` 的登入 API)。
+
 | HTTP 方法 | 路徑 (Path)        | 描述                                   | 請求主體 (Request Body) (JSON) & Headers | 回應 (Response) (JSON / Text)                     |
 | :-------- | :----------------- | :------------------------------------- | :--------------------------------------- | :------------------------------------------------ |
 | `GET`     | `/users`           | 取得所有使用者列表                     | 無                                       | 包含所有使用者的陣列 (200 OK)                     |
@@ -99,15 +102,27 @@ python refactor.py
 | `DELETE`  | `/users/<user_id>` | 刪除指定 ID 的使用者                   | 無                                       | 包含已刪除的使用者資訊 (200 OK)                   |
 
 **班級 (Classes) API**
+>支援版本： `v1`
+
 | HTTP 方法 | 路徑 (Path)         | 描述                                   | 請求主體 (Request Body) (JSON) & Headers | 回應 (Response) (JSON / Text)                     |
 | :-------- | :------------------ | :------------------------------------- | :--------------------------------------- | :------------------------------------------------ |
 | `GET`     | `/classes`          | 取得所有班級列表                       | 無                                       | 包含所有班級資訊的陣列 (含使用者列表) (200 OK)    |
 | `GET`     | `/classes/<class_id>`| 根據 ID 取得特定班級                   | 無                                       | 包含特定班級資訊的物件 (含使用者列表) (200 OK)  |
 
 **訊息 (Messages) API**
+>支援版本： `v1`
+
 | HTTP 方法 | 路徑 (Path)           | 描述                                   | 請求主體 (Request Body) (JSON) & Headers | 回應 (Response) (JSON / Text)                     |
 | :-------- | :-------------------- | :------------------------------------- | :--------------------------------------- | :------------------------------------------------ |
 | `POST`    | `/messages/<user_id>` | 為指定使用者提交訊息 (非同步處理)      | Body: `{ "data_date": "日期 (必填)", "location": "地點 (必填)" }`<br>Header: `token: xuemi-token` | "Acknowledged" (202 Accepted)                     |
+
+**登入/登出 (Auth) API**
+>支援版本： `v2`
+
+| HTTP 方法 | 路徑 (Path) | 描述 | 請求主體 (Request Body) (JSON) | 回應 (Response) |
+| :--- | :--- | :--- | :--- | :--- |
+| `POST` | `/login` | 使用者登入 | `{"username": "帳號", "password": "密碼"}` | 成功時設定 session (200 OK) |
+| `POST` | `/logout` | 使用者登出 | 無 | 清除 session (200 OK) |
 
 **注意：**
 *   `<user_id>` 和 `<class_id>` 代表資源的唯一識別碼。
