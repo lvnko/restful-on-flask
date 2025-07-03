@@ -1,13 +1,5 @@
-[回到目錄](overview.md)
-
+[回到目錄](overview.md) | [上一章](02-dyn-bind-jinja-n-flask.md) | [下一章](04-api-perf-index.md)
 ---
-
-[上一章](02-dyn-bind-jinja-n-flask.md)
-
-[下一章](04-api-perf-index.md)
-
----
-
 ## 3. 常見 HTTP/API 狀態碼說明
 
 API 回應通常會包含一個 HTTP 狀態碼，用來表示請求的處理結果。以下是一些常見狀態碼及其意義：

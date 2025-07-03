@@ -1,11 +1,5 @@
-[回到目錄](overview.md)
-
+[回到目錄](overview.md) | [上一章](04-api-perf-index.md)
 ---
-
-[上一章](04-api-perf-index.md)
-
----
-
 ## 5. 不同網站 Session 部署之優缺
 <table>
   <thead>

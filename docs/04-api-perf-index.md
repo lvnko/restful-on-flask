@@ -1,13 +1,5 @@
-[回到目錄](overview.md)
-
+[回到目錄](overview.md) | [上一章](03-status-codes-n-meaning.md) | [下一章](05-sessions-pros-n-cons.md)
 ---
-
-[上一章](03-status-codes-n-meaning.md)
-
-[下一章](05-sessions-pros-n-cons.md)
-
----
-
 ## 4. 常見 API 效能指標
 
 監控 API 的效能對於確保其穩定性和可靠性至關重要。以下是一些關鍵的效能指標：
