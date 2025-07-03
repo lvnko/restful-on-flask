@@ -4,7 +4,7 @@
 
 ## 內容目錄
 
-- [**01-jinja-on-flask**](01-jinja-on-flask): 在 Flask 架構上使用 Jinja 模板
+- [**01-jinja-on-flask**](01-jinja-on-flask.md): 在 Flask 架構上使用 Jinja 模板
 - [**02-dyn-bind-jinja-n-flask.md**](02-dyn-bind-jinja-n-flask.md): Jinja 與 Flask 的實用動態語法
 - [**03-status-codes-n-meaning.md**](03-status-codes-n-meaning.md): 常見 HTTP/API 狀態碼說明
 - [**04-api-perf-index.md**](04-api-perf-index.md): 常見 API 效能指標
