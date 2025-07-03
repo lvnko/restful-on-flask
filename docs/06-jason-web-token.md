@@ -1,6 +1,6 @@
 [回到目錄](overview.md) | [上一章](05-sessions-pros-n-cons.md)
 ---
-## JSON Web Token (JWT)
+## 6. JSON Web Token (JWT)
 
 ### 什麼是 JWT (JSON Web Token)？
 
