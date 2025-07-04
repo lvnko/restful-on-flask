@@ -1,4 +1,4 @@
-# Python : 後端開發與網站安管理
+# Python : 後端開發與網站安全管理
 
 ## A. 專案版本 (分支)
 本專案中包括了兩個單元的學習筆記與練習，它們被整理在不同的開發分支中 (branch)，詳列如下：
@@ -150,3 +150,4 @@ pip freeze > requirements.txt
 1. Jinja 的管網及使用說明 [[連結](https://jinja.palletsprojects.com/en/stable/)]
 2. 三方伺服器 Logging 管理服務：Centralize / elastic search
 3. Flask 官網上關於模組化應用的描述 [[連結](https://flask.palletsprojects.com/en/stable/blueprints/)]
+4. Json Web Token (JWT) Debugger [[連結](https://jwt.io)]

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+</head>
+<body>
+    <main>
+        <div>
+            <div class="flex flex-row ">
+                <h3>Welcome back to the Online Banking,</h3>
+                <a href="{{url_for('logout')}}">Logout</a>
+            </div>
+            <h2>{{username}}</h2>
+        </div>
+        <br/>
+        <br/>
+        <p>Current Balance: ${{amount}}</p>
+        <form action="{{url_for('accounts')}}" method="POST" autocomplete="off">
+            <input type="text" id="amount" name="amount" placeholder="amount" />
+            <input type="text" id="account" name="account" placeholder="account" />
+            <input type="submit" value="transfer" />
+        </form>
+    </main>
+</body>
+</html>
