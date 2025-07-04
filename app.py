@@ -54,10 +54,17 @@ def homepage():
         return redirect(url_for('accounts'))
     return render_template("homepage.html")
 
-@app.route("/accounts")
+@app.route("/accounts", methods=['GET', 'POST'])
 @login_required
 def accounts():
     user = get_user(current_user.id)
+    if request.method == 'POST':
+        transfer_amount = int(request.form.get("amount"))
+        transfer_to = get_user(int(request.form.get("account")))
+        if transfer_amount <= user["amount"] and transfer_to is not None:
+            user["amount"] -= transfer_amount
+            transfer_to["amount"] += transfer_amount
+        print("users =>", users)
     return render_template("accounts.html", username=user["username"], amount=user["amount"])
 
 @app.route("/logout")
