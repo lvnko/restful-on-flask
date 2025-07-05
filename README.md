@@ -94,6 +94,7 @@ python refactor.py
 # 第一步 - 起始用戶平台：
 python app.py
 # 以瀏覽器訪問 http://localhost:8081/
+
 # 第二步 - 起始惡意網頁：
 # 打開另一個 Terminal
 cd csrf_serve
@@ -182,7 +183,7 @@ python -m http.server 8002
 本專案包含一個惡意網站範例 (`csrf_serve/bad_site.html`)，用於演示 CSRF 攻擊如何運作。
 
 **模擬步驟：**
-1.  **啟動主應用程式：** 參考章節 [C.2.3.](#C.2.3.)
+1.  **啟動主應用程式：** 參考章節 [C.2.3.](#c23-最新的-api-編程包含了-jwt-及-csrf-token-的練習) 的啟動步驟
 2.  **執行模擬：**
     *   在瀏覽器中訪問 `http://localhost:8081/` 並使用**一般使用者** (`test`/`test`) 登入。
     *   登入後，在同一個瀏覽器中打開一個新分頁，訪問惡意網站 `http://localhost:8002/bad_site.html`。
