@@ -19,6 +19,7 @@
             <input type="text" id="amount" name="amount" placeholder="amount" />
             <input type="text" id="account" name="account" placeholder="account" />
             <input type="submit" value="transfer" />
+            <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
         </form>
     </main>
 </body>

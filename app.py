@@ -1,11 +1,14 @@
 from flask import Flask, render_template, redirect, url_for, request, abort
 from flask_login import LoginManager, UserMixin, login_required, logout_user, login_user, current_user
+from flask_wtf.csrf import CSRFProtect
 
 app = Flask(__name__, static_url_path='', static_folder='public', template_folder='templates')
 app.config.update(SECRET_KEY='my_secret_key')
 
-login_manager = LoginManager()
-login_manager.init_app(app)
+login_manager = LoginManager(app=app)
+# login_manager.init_app(app) # Abandoned lazy approach.
+csrf_protect = CSRFProtect(app=app)
+# csrf_protect.init_app(app) # Abandoned lazy approach.
 
 users = {
     1 : {
