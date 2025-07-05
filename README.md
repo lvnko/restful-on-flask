@@ -144,6 +144,9 @@ python3 -m pip install -r requirements.txt
 
 # 把當前依賴模組列與其版本寫在 ``requirements.txt`` 這個檔案中
 pip freeze > requirements.txt
+
+# 簡單架設 Python Http server 的指令
+python3 -m http.server 8002
 ```
 
 ## 其他有用資源
