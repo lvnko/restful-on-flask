@@ -76,12 +76,30 @@
     ```
 
 ### C.2. 啟動專案的 api server
+#### C.2.1. Week #24 ~ #25 第二堂及之前製作的 API 編程，該時還沒有採用 flask_restful
 ```shell
-# Week #24 ~ #25 第二堂及之前製作的 API 編程，該時還沒有採用 flask_restful
 python main.py
-
-# 最新的 API 編程
+# [!] 使用說明請參考本頁面的章節 D
+```
+#### C.2.2. Week #30 第一堂集之及製作的 API 編程：
+```shell
+# Chapter 1: flask_restful API 練習
+# Chapter 2: Client-side 及 Server-side Session 的練習
+# [!] 使用說明請參考本頁面的章節 D
 python refactor.py
+```
+#### C.2.3. 最新的 API 編程，包含了 JWT 及 CSRF Token 的練習
+```shell
+# Chapter 2: CSRF Token 的練習 => E
+# 第一步 - 起始用戶平台：
+python app.py
+# 以瀏覽器訪問 http://localhost:8081/
+# 第二步 - 起始惡意網頁：
+# 打開另一個 Terminal
+cd csrf_serve
+python -m http.server 8002
+# 以瀏覽器訪問 http://localhost:8002/bad_site.html
+# [!] 使用說明請參考本頁面的章節 E
 ```
 
 ## D. RESTful API 使用說明
@@ -136,7 +154,45 @@ python refactor.py
 *   訊息 `POST` 請求需要一個值為 `xuemi-token` 的 `token` 標頭進行驗證。若 token 遺失，回應 401；若 token 無效，回應 403。
 *   訊息 `POST` 請求成功後會設定 `sent_message_before=true` 和 `message_only=1` (路徑 `/messages`) 的 cookies。
 
-## 常用指令參考
+## E. 模擬 JWT 及 CSRF Token 用戶登入及功能頁面
+
+本專案透過 `app.py` 提供了一個模擬網站，用於演示使用者登入、帳戶資訊查詢及登出功能。
+
+### 頁面與功能說明
+
+| 路徑 (Path) | HTTP 方法 | 功能描述 | 頁面 |
+| :--- | :--- | :--- | :--- |
+| `/` | `GET`, `POST` | 顯示首頁 (`GET`)，並處理使用者登入請求 (`POST`)。成功後會跳轉至帳戶頁面。 | `homepage.html` |
+| `/accounts` | `GET`, `POST` | 顯示使用者帳戶頁面 (`GET`)，並處理轉帳請求 (`POST`)。此頁面需要登入才能存取。 | `accounts.html` |
+| `/logout` | `GET` | 處理使用者登出請求。清除 Session 後跳轉回首頁。 | (API 端點) |
+
+### 使用者帳號
+
+您可以使用以下帳號進行測試：
+
+*   **一般使用者:**
+    *   **帳號:** `test`
+    *   **密碼:** `test`
+*   **惡意使用者 (用於 CSRF 模擬):**
+    *   **帳號:** `bad_guy`
+    *   **密碼:** `bad_guy`
+
+### CSRF 攻擊模擬
+
+本專案包含一個惡意網站範例 (`csrf_serve/bad_site.html`)，用於演示 CSRF 攻擊如何運作。
+
+**模擬步驟：**
+1.  **啟動主應用程式：** 參考章節 [C.2.3.](#C.2.3.)
+2.  **執行模擬：**
+    *   在瀏覽器中訪問 `http://localhost:8081/` 並使用**一般使用者** (`test`/`test`) 登入。
+    *   登入後，在同一個瀏覽器中打開一個新分頁，訪問惡意網站 `http://localhost:8002/bad_site.html`。
+    *   惡意網站的頁面會自動嘗試向主應用程式發送一個轉帳請求。
+    *   觀察主應用程式的終端機輸出，您會看到轉帳是否成功，藉此了解 CSRF 保護機制的實際效果。
+
+
+## F. 參考資源
+
+### 常用指令參考
 ```shell
 # 以下的指令可以確保模組安裝的版本與目的地皆與當前所使用的 Python 版本環境相容
 python3 -m pip install
@@ -149,7 +205,7 @@ pip freeze > requirements.txt
 python3 -m http.server 8002
 ```
 
-## 其他有用資源
+### 其他有用資源
 1. Jinja 的管網及使用說明 [[連結](https://jinja.palletsprojects.com/en/stable/)]
 2. 三方伺服器 Logging 管理服務：Centralize / elastic search
 3. Flask 官網上關於模組化應用的描述 [[連結](https://flask.palletsprojects.com/en/stable/blueprints/)]
