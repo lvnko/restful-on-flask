@@ -10,7 +10,7 @@
 - [**04-api-perf-index.md**](04-api-perf-index.md): 常見 API 效能指標
 - [**05-sessions-pros-n-cons.md**](05-sessions-pros-n-cons.md): 不同網站 Session 部署之優缺
 - [**06-jason-web-token.md**](06-jason-web-token.md): JSON Web Token (JWT)
-- [**07-cross-origin.md**](07-cross-origin.md): Cross-Origin Resource Sharing (CROS)
+- [**07-cross-origin.md**](07-cross-origin.md): Cross-Origin Resource Sharing (CORS)
 - [**08-csrf-token.md**](08-csrf-token.md): 跨站請求偽造 (Cross-Site Request Forgery, CSRF)
 
 透過這份筆記，您將能夠逐步建立起扎實的 Python 後台架設及管理基礎，並掌握在實際應用中有效管理 Python 後台的能力。
