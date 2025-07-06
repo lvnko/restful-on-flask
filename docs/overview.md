@@ -9,7 +9,7 @@
 - [**03-status-codes-n-meaning.md**](03-status-codes-n-meaning.md): 常見 HTTP/API 狀態碼說明
 - [**04-api-perf-index.md**](04-api-perf-index.md): 常見 API 效能指標
 - [**05-sessions-pros-n-cons.md**](05-sessions-pros-n-cons.md): 不同網站 Session 部署之優缺
-- [**06-jason-web-token.md**](06-jason-web-token.md): JSON Web Token (JWT)
+- [**06-json-web-token.md**](06-json-web-token.md): JSON Web Token (JWT)
 - [**07-cross-origin.md**](07-cross-origin.md): Cross-Origin Resource Sharing (CORS)
 - [**08-csrf-token.md**](08-csrf-token.md): 跨站請求偽造 (Cross-Site Request Forgery, CSRF)
 
